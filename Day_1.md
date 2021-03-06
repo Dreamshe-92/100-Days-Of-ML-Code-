@@ -9,17 +9,20 @@
 准备工作：
 
 确认我们使用的第三方库的版本信息
+```python
 numpy                              1.19.2
 pandas                              1.1.3
 sklearn                               0.23.2
-
+```
 
 第一步：导入需要的库
+```python
 import numpy as np
 import pandas as pd
-
+```
 
 第二步：导入数据集
+```python
 dataset = pd.read_csv('Data.csv')//读取csv文件
 ​
 Country  Age  Salary  Purchased
@@ -60,11 +63,12 @@ array([['France', 44.0, 72000.0],
  [48.0 79000.0]
  [50.0 83000.0]
  [37.0 67000.0]] 
-
+```
 
 第三步：处理丢失数据
 
 从上面的dataset数据和Y的数据都是存在nan(即空值情况)，这个空值会影响我们的后续的分析，采用sklearn.impute.Simplelmputer 数据填充
+```python
 #from sklearn.preprocessing import Imputer（老版本的sklearn调用方式，目前很多教程都是这个调用方式）
 from sklearn.impute  import SimpleImputer
 ​
@@ -93,7 +97,7 @@ array([[44.0, 72000.0],
        [48.0, 79000.0],
        [50.0, 83000.0],
        [37.0, 67000.0]], dtype=object)
-​
+```
 
 
 第四步：解析分类数据
@@ -104,7 +108,7 @@ LabelEncoder是用来对分类型特征值进行编码，即对不连续的数�
 OneHotEncoder将每一个分类特征变量的m个可能的取值转变成m个二值特征，
 对于每一条数据这m个值中仅有一个特征值为1，其他的都为0。
 '''
-​
+```python
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 ​
 labelencoder_X = LabelEncoder()
@@ -117,16 +121,19 @@ onehotencoder = ColumnTransformer([("Country",OneHotEncoder(),[0])],remainder='p
 X = onehotencoder.fit_transform(X)
 labelencoder_Y = LabelEncoder()
 Y =  labelencoder_Y.fit_transform(Y)
-​
+```
 
 
 第五步：拆分数据集为训练集合和测试集合
+```python
 from sklearn.model_selection import train_test_split
 X_train, X_test, Y_train, Y_test = train_test_split( X , Y , test_size = 0.2, random_state = 0)
-
+```
 
 第六步：特征量化
+```python
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
+```
